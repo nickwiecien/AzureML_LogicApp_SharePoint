@@ -10,7 +10,7 @@ import numpy as np
 
 # Parse input arguments
 parser = argparse.ArgumentParser("Get raw data from a selected datastore and register in AML workspace")
-parser.add_argument('--training_data', dest='output_data', required=True)
+parser.add_argument('--training_data', dest='training_data', required=True)
 parser.add_argument('--forecasting_data', dest='forecasting_data', required=True)
 parser.add_argument('--input_data', dest='input_data',  required=True)
 parser.add_argument('--file_path',  type=str, required=True)
