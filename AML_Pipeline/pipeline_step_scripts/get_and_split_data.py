@@ -10,12 +10,14 @@ import numpy as np
 
 # Parse input arguments
 parser = argparse.ArgumentParser("Get raw data from a selected datastore and register in AML workspace")
-parser.add_argument('--output_data', dest='output_data', required=True)
+parser.add_argument('--training_data', dest='output_data', required=True)
+parser.add_argument('--forecasting_data', dest='forecasting_data', required=True)
 parser.add_argument('--input_data', dest='input_data',  required=True)
 parser.add_argument('--file_path',  type=str, required=True)
 
 args, _ = parser.parse_known_args()
-output_data = args.output_data
+forecasting_data = args.output_data
+training_data = args.training_data
 input_data = args.input_data
 file_path = args.file_path
 
@@ -40,10 +42,14 @@ else:
     raw_df = pd.read_csv(os.path.join(input_data, file_path))
 
 #TRANSFORM DATA & APPLY LOGIC BELOW
+forecasting_df = input_data[:-10]
+training_df = input_data[~forecasting_df]
 
 
 # Make directory on mounted storage for output dataset
-os.makedirs(output_data, exist_ok=True)
+os.makedirs(training_data, exist_ok=True)
+os.makedirs(forecasting_data, exist_ok=True)
 
-# Save modified dataframe
-raw_df.to_csv(os.path.join(output_data, 'output_data.csv'), index=False)
+# Save modified dataframes
+training_df.to_csv(os.path.join(training_data, 'training_data.csv'), index=False)
+forecasting_df.to_csv(os.path.join(forecasting_data, 'forecasting_data.csv'), index=False)
