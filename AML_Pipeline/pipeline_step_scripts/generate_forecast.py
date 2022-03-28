@@ -37,6 +37,10 @@ forecast_datset = current_run.input_datasets['Forecast_Data']
 forecast_df = forecast_datset.to_pandas_dataframe()
 
 #Separate inputs from outputs (actuals). Create separate dataframes for testing champion and challenger.
+try:
+    forecast_df = forecast_df.drop(columns=[target_column])
+except Exception:
+    pass
 
 #Get new AutoML model
 for c in parent_run.get_children():
