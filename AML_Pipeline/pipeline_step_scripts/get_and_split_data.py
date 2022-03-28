@@ -14,12 +14,14 @@ parser.add_argument('--training_data', dest='training_data', required=True)
 parser.add_argument('--forecasting_data', dest='forecasting_data', required=True)
 parser.add_argument('--input_data', dest='input_data',  required=True)
 parser.add_argument('--file_path',  type=str, required=True)
+parser.add_argument('--timestamp_column',  type=str, required=True)
 
 args, _ = parser.parse_known_args()
 forecasting_data = args.forecasting_data
 training_data = args.training_data
 input_data = args.input_data
 file_path = args.file_path
+timestamp_column  = args.timestamp_column
 
 # Get current run
 current_run = Run.get_context()
@@ -42,8 +44,9 @@ else:
     raw_df = pd.read_csv(os.path.join(input_data, file_path))
 
 #TRANSFORM DATA & APPLY LOGIC BELOW
-forecasting_df = input_data[:-10]
-training_df = input_data[~forecasting_df]
+forecasting_df = raw_df.tail(10)
+cutoff_date = forecasting_df.iloc[0][timestamp_column]
+training_df = raw_df[raw_df[timestamp_column]<cutoff_date]
 
 
 # Make directory on mounted storage for output dataset
