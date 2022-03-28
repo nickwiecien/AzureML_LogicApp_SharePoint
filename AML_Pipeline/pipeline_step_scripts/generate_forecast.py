@@ -54,9 +54,10 @@ for c in parent_run.get_children():
         model_tags = {'Parent Run ID': parent_run.id, 'AutoML Run ID': best_child_run_id}
         
 #Generate new forecast
-preds = model.predict(forecast_df)
+preds = model.forecast(forecast_df)
+print(preds)
 updated_df = forecast_df
-updated_df['PREDICTIONS'] = preds
+updated_df['PREDICTIONS'] = preds[0]
 
 Model.register(model_path="outputs",
         model_name=model_name,
