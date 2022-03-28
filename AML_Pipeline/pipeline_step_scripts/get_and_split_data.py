@@ -16,7 +16,7 @@ parser.add_argument('--input_data', dest='input_data',  required=True)
 parser.add_argument('--file_path',  type=str, required=True)
 
 args, _ = parser.parse_known_args()
-forecasting_data = args.output_data
+forecasting_data = args.forecasting_data
 training_data = args.training_data
 input_data = args.input_data
 file_path = args.file_path
